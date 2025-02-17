@@ -6,20 +6,20 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage(' My_Checkout_Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-org/your-repo.git'
+                git branch: 'main', url: 'https://github.com/michoolly15/assignment.git'
             }
         }
 
         stage('Detect Changes') {
             steps {
                 script {
-                    def changes = sh(script: 'git diff --name-only HEAD~1', returnStdout: true).trim()
+                    def mike_assignment = sh(script: 'git diff --name-only HEAD~1', returnStdout: true).trim()
                     
-                    env.BUILD_ANGULAR = changes.contains('angular-app/') ? 'true' : 'false'
-                    env.BUILD_REACT   = changes.contains('react-app/') ? 'true' : 'false'
-                    env.BUILD_VUE     = changes.contains('vue-app/') ? 'true' : 'false'
+                    env.BUILD_ANGULAR = mike_assignment.contains('angular-app/') ? 'true' : 'false'
+                    env.BUILD_REACT   = mike_assignment.contains('react-app/') ? 'true' : 'false'
+                    env.BUILD_VUE     = mike_assignment.contains('vue-app/') ? 'true' : 'false'
                 }
             }
         }
@@ -33,7 +33,8 @@ pipeline {
                     dir('angular-app') {
                         sh 'npm install'
                         sh 'npm run build'
-                        sh 'scp -r dist/* user@server:/var/www/angular-app/'
+                        sh 'rm -r dist/*'
+
                     }
                 }
             }
@@ -48,7 +49,8 @@ pipeline {
                     dir('react-app') {
                         sh 'npm install'
                         sh 'npm run build'
-                        sh 'scp -r build/* user@server:/var/www/react-app/'
+                        sh 'rm -r dist/*'
+
                     }
                 }
             }
@@ -63,7 +65,8 @@ pipeline {
                     dir('vue-app') {
                         sh 'npm install'
                         sh 'npm run build'
-                        sh 'scp -r dist/* user@server:/var/www/vue-app/'
+                        sh 'rm -r dist/*'
+
                     }
                 }
             }
